@@ -30,18 +30,32 @@ class Board  {
     
     var gameState : GameState {
         
+        // count of all Xs & Os in the squares array
+        let noughts = squares.filter { $0 == .X }.count
+        let crosses = squares.filter { $0 == .O }.count
+        
+        print(noughts,crosses)
         
         //map out predefined set of wins and check against game entered.
-        //Which combination of elements in the array describe different tyoes of win eg. vertical:
+        //Which combination of elements in the array describe different types of win eg. vertical:
         
-        //If there is 4 or less counters its definitely
+        //If there is 4 or less its definitely in progress
+        if(noughts + crosses < 4){
+            return .InProgress
+        }
+        
         // if one move has 2 or more entries then invalid
         //if number BoardSquare with 1 >= number BoardSquare with 2, then invalid
     
         // Invalid
-        // get me the count of all Xs in the squares array
-        let xCount = squares.filter { $0 == .X }.count
-        let yCount = squares.filter { $0 == .O }.count
+        if(noughts > crosses && (noughts - crosses) > 1){
+            return .Invalid
+        }
+        
+        if(crosses > noughts && (crosses - noughts) > 1){
+            return .Invalid
+        }
+        
         
         return .InProgress
     }
@@ -61,6 +75,7 @@ class Board  {
 let wonGame = Board([
                 .X, .X, .X,
                 .Empty,.O,.Empty,
-                .O,.Empty,.Empty
+                .O,.O,.Empty
                 ])
+
 wonGame.gameState
